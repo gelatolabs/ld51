@@ -56,20 +56,32 @@ if({! ~ $#p_startup 0} &&
                     switch($quality) {
                     case good
                         if(gt `{shuf -i 1-10 -n 1} 3) {
-                            news=`{fortune site/data/startups/$id/news/good}
+                            if(~ `{shuf -i 1-2 -n 1} 1)
+                                news=`{fortune site/data/startups/$id/news/good}
+                            if not
+                                news=`{fortune site/data/news/good}
                             change=`{int `{x `{x `{shuf -i 10-80 -n 1} 0.01} $investment}}
                         }
                         if not {
-                            news=`{fortune site/data/startups/$id/news/bad}
+                            if(~ `{shuf -i 1-2 -n 1} 1)
+                                news=`{fortune site/data/startups/$id/news/bad}
+                            if not
+                                news=`{fortune site/data/news/bad}
                             change=-`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
                         }
                     case bad
                         if(gt `{shuf -i 1-10 -n 1} 7) {
-                            news=`{fortune site/data/startups/$id/news/good}
+                            if(~ `{shuf -i 1-2 -n 1} 1)
+                                news=`{fortune site/data/startups/$id/news/good}
+                            if not
+                                news=`{fortune site/data/news/good}
                             change=`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
                         }
                         if not {
-                            news=`{fortune site/data/startups/$id/news/bad}
+                            if(~ `{shuf -i 1-2 -n 1} 1)
+                                news=`{fortune site/data/startups/$id/news/bad}
+                            if not
+                                news=`{fortune site/data/news/bad}
                             change=-`{int `{x `{x `{shuf -i 10-80 -n 1} 0.01} $investment}}
                         }
                     }
