@@ -49,6 +49,8 @@ if(! ~ $#post_args 0) {
 %   }
 </div>
 
+<button class="menu" onclick="window.navigation.navigate('/')">Menu</button>
+
 <style>
     html, body {
         margin: 0;
@@ -62,6 +64,12 @@ if(! ~ $#post_args 0) {
         text-align: center;
         margin: 0.2em;
         color: #ff0;
+    }
+
+    .menu {
+        position: absolute;
+        bottom: 4px; left: 50%;
+        transform: translateX(-50%);
     }
 
     .decks {

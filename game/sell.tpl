@@ -110,6 +110,8 @@ if({! ~ $#p_name 0} &&
     </div>
 </div>
 
+<button class="menu" onclick="window.navigation.navigate('/')">Menu</button>
+
 <style>
     html, body {
         margin: 0;
@@ -123,6 +125,12 @@ if({! ~ $#p_name 0} &&
         text-align: center;
         margin: 0.2em;
         color: #ff0;
+    }
+
+    .menu {
+        position: absolute;
+        bottom: 4px; left: 50%;
+        transform: translateX(-50%);
     }
 
     .title-bar {
