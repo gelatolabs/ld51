@@ -1,42 +1,23 @@
 %{
 user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
 if(~ $#user 0) {
-    echo '<button onclick="window.navigation.reload()">Play</a>'
+    echo '<a href="/">Play</a>'
     exit
 }
 
 funds=`{cat etc/users/$user/funds}
 
-if({echo $p_investment | grep -q '^[0-9]*$'} &&
-   {~ $p_quality good || ~ $p_quality neutral || ~ $p_quality bad}) {
-    if(gt $p_investment $funds) {
-        echo '<p>You can''t afford that!</p>'
-        break
+if(! ~ $#post_args 0) {
+    for(startup in $post_args) {
+        startup=`{echo $startup | sed 's/^p_//'}
+        value=`{cat etc/users/$user/positions/$startup/investment}
+        funds=`{+ $funds $value}
     }
-    if not if(lt $p_investment 1000) {
-        echo '<p>The minimum investment is $1000!</p>'
-        break
-    }
-    if not {
-        funds=`{- $funds $p_investment}
-
-        switch($p_quality) {
-        case good
-            multiplier=`{x `{shuf -i 110-180 -n 1} 0.01}
-        case neutral
-            multiplier=`{x `{shuf -i 80-110 -n 1} 0.01}
-        case bad
-            multiplier=`{x `{shuf -i 1-60 -n 1} 0.01}
-        }
-
-        funds=`{int `{+ $funds `{x $p_investment $multiplier}}}
-
-        echo $funds > etc/users/$user/funds
-    }
+    echo $funds > etc/users/$user/funds
 }
 %}
 
-<p>Balance: $%($funds%)</p>
+<h1>💰 $%($funds%)</h1>
 
 <div class="decks">
 %   for (quality in `{echo good $NEW_LINE neutral $NEW_LINE bad | shuf}) {
@@ -56,7 +37,8 @@ if({echo $p_investment | grep -q '^[0-9]*$'} &&
                 <button class="prev" onclick="prevSlide(this)">◀</button>
                 <button class="next" onclick="nextSlide(this)">▶</button>
 
-                <form action="" method="POST">
+                <form action="/sell" method="POST">
+                    <input type="hidden" name="name" value="%($name%)" />
                     <input type="hidden" name="quality" value="%($quality%)" />
                     <label for="invest%($quality%)">$</label>
                     <input id="invest%($quality%)" name="investment" type="number" min="1000" max="%($funds%)" value="10000" />
@@ -71,17 +53,33 @@ if({echo $p_investment | grep -q '^[0-9]*$'} &&
     html, body {
         margin: 0;
         padding: 0;
+        height: 100%;
+        background: linear-gradient(180deg, #00f, #000);
+        overflow-y: hidden;
+    }
+
+    body > h1 {
+        text-align: center;
+        margin: 0.2em;
+        color: #ff0;
+    }
+
+    .decks {
+        position: absolute;
+        top: 0;
+        height: 100%;
     }
 
     .title-bar {
-        background: linear-gradient(90deg, #008000, #10d084)
+        background: linear-gradient(90deg, #fa2301, #f37836)
     }
 
     .deck {
         display: inline-block;
         width: calc(100vw / 3 - 12px);
         height: calc((100vw / 3 - 28px) * 0.75 + 49px);
-        margin: 4px 0 4px 4px;
+        margin: 50vh 0 4px 4px;
+        transform: translateY(-50%);
     }
     .deck:last-child {
         margin-right: 4px;
@@ -108,7 +106,7 @@ if({echo $p_investment | grep -q '^[0-9]*$'} &&
         position: fixed;
         bottom: 0; left: 0;
         height: 24px;
-        width: 250px;
+        width: auto;
     }
     .deck.minimized .window-body {
         display: none;
@@ -121,6 +119,7 @@ if({echo $p_investment | grep -q '^[0-9]*$'} &&
         width: calc(100% - 6px);
         height: calc(100% - 6px);
         margin: 0;
+        transform: none;
     }
     .deck.maximized iframe {
         height: calc(100vh - 56px);
