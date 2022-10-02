@@ -22,6 +22,10 @@
             <ul>%(`{fortune $startup/bad/history}%)</ul>
 %       }
     </div>
+    <div class="slide financials">
+        <h2>Financials?</h2>
+        <img src="/img/graphs/%(`{shuf -i 1-13 -n 1}%).png" />
+    </div>
     <div class="slide end">
         <p>%(`{fortune site/data/thanks}%)</p>
     </div>
@@ -122,6 +126,15 @@
     }
     .slide.product img {
         width: 55%;
+    }
+
+    .slide.financials {
+        text-align: center;
+    }
+    .slide.financials img {
+        height: 80%;
+        max-width: 100%;
+        object-fit: contain;
     }
 
     .slide.end {
