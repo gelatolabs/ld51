@@ -7,6 +7,15 @@ if(~ $#user 0) {
 
 funds=`{cat etc/users/$user/funds}
 
+week=`{cat etc/users/$user/week}
+week=`{+ $week 1}
+echo $week > etc/users/$user/week
+
+if (gt $week 15) {
+    echo '<script>window.location.href = "end";</script>'
+    exit
+}
+
 if(! ~ $#post_args 0) {
     for(startup in $post_args) {
         startup=`{echo $startup | sed 's/^p_//'}
@@ -24,7 +33,8 @@ if (le $funds 0) {
 %}
 
 <h1 id="funds">💰 $%($funds%)</h1>
-<h1 id="timer">10 ⏱</h1>
+<h1 id="timer">10</h1>
+<h1 id="week">%($week%)/15 &#x1F5D3;&#xFE0F;</h1>
 
 <div class="decks">
 %   for (quality in `{echo good $NEW_LINE bad $NEW_LINE bad | shuf}) {
@@ -70,14 +80,19 @@ if (le $funds 0) {
     }
 
     body > h1 {
-        margin: 0.2em;
+        position: absolute;
+        margin-top: 0.2em;
         color: #ff0;
     }
     #funds {
-        float: left;
+        left: 0.2em;
     }
     #timer {
-        float: right;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #week {
+        right: 0.2em;
     }
 
     .menu {
@@ -189,7 +204,7 @@ if (le $funds 0) {
         if (timer <= 0) {
             window.location.href = "timeup";
         } else {
-            document.getElementById("timer").innerHTML = timer + " ⏱";
+            document.getElementById("timer").innerHTML = timer;
         }
         //timer -= 1;
     }, 1000);

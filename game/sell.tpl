@@ -215,15 +215,6 @@ if({! ~ $#p_startup 0} &&
 </style>
 
 <script>
-    function prevSlide(btn) {
-        var frame = btn.parentElement.querySelector("iframe").contentWindow;
-        frame.scrollTo(0, frame.scrollY - frame.innerHeight - 8);
-    }
-    function nextSlide(btn) {
-        var frame = btn.parentElement.querySelector("iframe").contentWindow;
-        frame.scrollTo(0, frame.scrollY + frame.innerHeight + 8);
-    }
-
     function minimizeWin(btn) {
         var win = btn.parentElement.parentElement.parentElement;
         win.classList.toggle("minimized");
