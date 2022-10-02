@@ -12,11 +12,7 @@ if({! ~ $#p_name 0} &&
    {~ $p_quality good || ~ $p_quality neutral || ~ $p_quality bad}) {
     if(gt $p_investment $funds) {
         echo '<p>You can''t afford that! <a href="/invest">Back</a></p>'
-        break
-    }
-    if not if(lt $p_investment 1000) {
-        echo '<p>The minimum investment is $1000! <a href="/invest">Back</a></p>'
-        break
+        exit
     }
     if not {
         funds=`{- $funds $p_investment}
@@ -31,7 +27,8 @@ if({! ~ $#p_name 0} &&
 }
 %}
 
-<h1>💰 $%($funds%)</h1>
+<h1 id="funds">💰 $%($funds%)</h1>
+<h1 id="timer">10 ⏱</h1>
 
 <div class="window stonks">
     <div class="title-bar">
@@ -43,7 +40,7 @@ if({! ~ $#p_name 0} &&
         </div>
     </div>
     <div class="window-body">
-        <form action="/invest" method="POST">
+        <form id="form" action="/invest" method="POST">
             <table>
                 <tr class="bold"><td></td><td>Company</td><td>Position</td><td>Change</td><td>News</td></tr>
 %               row=1
@@ -110,7 +107,7 @@ if({! ~ $#p_name 0} &&
     </div>
 </div>
 
-<button class="menu" onclick="window.navigation.navigate('/')">Menu</button>
+<button class="menu" onclick="window.navigation.navigate('/menu')">Menu</button>
 
 <style>
     html, body {
@@ -122,9 +119,14 @@ if({! ~ $#p_name 0} &&
     }
 
     body > h1 {
-        text-align: center;
         margin: 0.2em;
         color: #ff0;
+    }
+    #funds {
+        float: left;
+    }
+    #timer {
+        float: right;
     }
 
     .menu {
@@ -238,4 +240,14 @@ if({! ~ $#p_name 0} &&
     function closeWin(btn) {
         window.navigation.navigate("/invest");
     }
+
+    var timer = 10;
+    setInterval(function() {
+        if (timer <= 0) {
+            document.getElementById("form").submit();
+        } else {
+            document.getElementById("timer").innerHTML = timer + " ⏱";
+        }
+        timer -= 1;
+    }, 1000);
 </script>

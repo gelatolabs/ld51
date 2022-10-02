@@ -12,12 +12,14 @@ if(! ~ $#post_args 0) {
         startup=`{echo $startup | sed 's/^p_//'}
         value=`{cat etc/users/$user/positions/$startup/investment}
         funds=`{+ $funds $value}
+        rm -r etc/users/$user/positions/$startup
     }
     echo $funds > etc/users/$user/funds
 }
 %}
 
-<h1>💰 $%($funds%)</h1>
+<h1 id="funds">💰 $%($funds%)</h1>
+<h1 id="timer">10 ⏱</h1>
 
 <div class="decks">
 %   for (quality in `{echo good $NEW_LINE neutral $NEW_LINE bad | shuf}) {
@@ -41,7 +43,7 @@ if(! ~ $#post_args 0) {
                     <input type="hidden" name="name" value="%($name%)" />
                     <input type="hidden" name="quality" value="%($quality%)" />
                     <label for="invest%($quality%)">$</label>
-                    <input id="invest%($quality%)" name="investment" type="number" min="1000" max="%($funds%)" value="10000" />
+                    <input id="invest%($quality%)" name="investment" type="number" min="1" max="%($funds%)" value="%(`{min 10 $funds}%)" />
                     <button class="invest">Invest</button>
                 </form>
             </div>
@@ -49,7 +51,7 @@ if(! ~ $#post_args 0) {
 %   }
 </div>
 
-<button class="menu" onclick="window.navigation.navigate('/')">Menu</button>
+<button class="menu" onclick="window.navigation.navigate('/menu')">Menu</button>
 
 <style>
     html, body {
@@ -61,9 +63,14 @@ if(! ~ $#post_args 0) {
     }
 
     body > h1 {
-        text-align: center;
         margin: 0.2em;
         color: #ff0;
+    }
+    #funds {
+        float: left;
+    }
+    #timer {
+        float: right;
     }
 
     .menu {
@@ -169,4 +176,14 @@ if(! ~ $#post_args 0) {
             win.remove();
         }
     }
+
+    var timer = 10;
+    setInterval(function() {
+        if (timer <= 0) {
+            window.navigation.navigate("/timeup");
+        } else {
+            document.getElementById("timer").innerHTML = timer + " ⏱";
+        }
+        timer -= 1;
+    }, 1000);
 </script>
