@@ -16,6 +16,11 @@ if(! ~ $#post_args 0) {
     }
     echo $funds > etc/users/$user/funds
 }
+
+if (le $funds 0) {
+    echo '<script>window.location.href = "bankrupt";</script>'
+    exit
+}
 %}
 
 <h1 id="funds">💰 $%($funds%)</h1>
