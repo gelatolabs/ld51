@@ -10,11 +10,14 @@ if(~ $REQUEST_METHOD POST) {
     <h1>Venture Capitalist Simulator 2022</h1>
     <h2>A Gelato Labs production<br>for Ludum Dare 51</h2>
     <h3>"Every 10 seconds"</h3>
-    <button onclick="window.navigation.navigate('/intro')">Play</button>
 %   if(! ~ $#user 0 && ~ $REQUEST_METHOD GET) {
+        <button onclick="window.location.href = 'invest'">Continue</button>
         <form action="" method="POST">
             <button>Reset game</button>
         </form>
+%   }
+%   if not {
+        <button onclick="window.location.href = 'intro'">Play</button>
 %   }
 </main>
 

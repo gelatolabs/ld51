@@ -7,9 +7,10 @@ if(~ $#user 0) {
 
 funds=`{cat etc/users/$user/funds}
 
-if({! ~ $#p_name 0} &&
+if({! ~ $#p_startup 0} &&
+   {! ~ $#p_name 0} &&
    {echo $p_investment | grep -q '^[0-9]*$'} &&
-   {~ $p_quality good || ~ $p_quality neutral || ~ $p_quality bad}) {
+   {~ $p_quality good || ~ $p_quality bad}) {
     if(gt $p_investment $funds) {
         echo '<p>You can''t afford that! <a href="/invest">Back</a></p>'
         exit
@@ -20,6 +21,7 @@ if({! ~ $#p_name 0} &&
 
         id=`{uuidgen | sed 's/-//g'}
         mkdir -p etc/users/$user/positions/$id
+        echo $p_startup > etc/users/$user/positions/$id/startup
         echo $p_name > etc/users/$user/positions/$id/name
         echo $p_quality > etc/users/$user/positions/$id/quality
         echo $p_investment > etc/users/$user/positions/$id/investment
@@ -46,6 +48,7 @@ if({! ~ $#p_name 0} &&
 %               row=1
 %               for(startup in `{ls -tr etc/users/$user/positions}) {
 %{
+                    id=`{cat $startup/startup}
                     name=`{cat $startup/name}
                     quality=`{cat $startup/quality}
                     investment=`{cat $startup/investment}
@@ -53,29 +56,20 @@ if({! ~ $#p_name 0} &&
                     switch($quality) {
                     case good
                         if(gt `{shuf -i 1-10 -n 1} 3) {
-                            news=`{fortune site/data/news/good}
+                            news=`{fortune site/data/startups/$id/news/good}
                             change=`{int `{x `{x `{shuf -i 10-80 -n 1} 0.01} $investment}}
                         }
                         if not {
-                            news=`{fortune site/data/news/bad}
-                            change=-`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
-                        }
-                    case neutral
-                        if(gt `{shuf -i 1-10 -n 1} 5) {
-                            news=`{fortune site/data/news/good}
-                            change=`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
-                        }
-                        if not {
-                            news=`{fortune site/data/news/bad}
+                            news=`{fortune site/data/startups/$id/news/bad}
                             change=-`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
                         }
                     case bad
                         if(gt `{shuf -i 1-10 -n 1} 7) {
-                            news=`{fortune site/data/news/good}
+                            news=`{fortune site/data/startups/$id/news/good}
                             change=`{int `{x `{x `{shuf -i 10-40 -n 1} 0.01} $investment}}
                         }
                         if not {
-                            news=`{fortune site/data/news/bad}
+                            news=`{fortune site/data/startups/$id/news/bad}
                             change=-`{int `{x `{x `{shuf -i 10-80 -n 1} 0.01} $investment}}
                         }
                     }
@@ -107,7 +101,7 @@ if({! ~ $#p_name 0} &&
     </div>
 </div>
 
-<button class="menu" onclick="window.navigation.navigate('/menu')">Menu</button>
+<button class="menu" onclick="window.location.href = 'menu'">Menu</button>
 
 <style>
     html, body {
@@ -238,7 +232,7 @@ if({! ~ $#p_name 0} &&
     }
 
     function closeWin(btn) {
-        window.navigation.navigate("/invest");
+        window.location.href = "invest";
     }
 
     var timer = 10;

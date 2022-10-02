@@ -22,8 +22,9 @@ if(! ~ $#post_args 0) {
 <h1 id="timer">10 ⏱</h1>
 
 <div class="decks">
-%   for (quality in `{echo good $NEW_LINE neutral $NEW_LINE bad | shuf}) {
-%       name=`{fortune site/data/startup_names}^`{fortune site/data/startup_suffixes}
+%   for (quality in `{echo good $NEW_LINE bad $NEW_LINE bad | shuf}) {
+%       startup=`{basename `{ls site/data/startups | shuf -n 1}}
+%       name=`{fortune site/data/names/prefixes}^`{fortune site/data/names/suffixes}
 %       echo -n '<div class="window deck">'
             <div class="title-bar">
                 <div class="title-bar-text">🧩 Macrosoft PowerSlides - %($name%).ppt</div>
@@ -34,12 +35,13 @@ if(! ~ $#post_args 0) {
                 </div>
             </div>
             <div class="window-body">
-                <iframe src="slides?name=%($name%)&quality=%($quality%)"></iframe>
+                <iframe src="slides?startup=%($startup%)&name=%($name%)&quality=%($quality%)"></iframe>
 
                 <button class="prev" onclick="prevSlide(this)">◀</button>
                 <button class="next" onclick="nextSlide(this)">▶</button>
 
                 <form action="/sell" method="POST">
+                    <input type="hidden" name="startup" value="%($startup%)" />
                     <input type="hidden" name="name" value="%($name%)" />
                     <input type="hidden" name="quality" value="%($quality%)" />
                     <label for="invest%($quality%)">$</label>
@@ -51,7 +53,7 @@ if(! ~ $#post_args 0) {
 %   }
 </div>
 
-<button class="menu" onclick="window.navigation.navigate('/menu')">Menu</button>
+<button class="menu" onclick="window.location.href = 'menu'">Menu</button>
 
 <style>
     html, body {
@@ -180,10 +182,10 @@ if(! ~ $#post_args 0) {
     var timer = 10;
     setInterval(function() {
         if (timer <= 0) {
-            window.navigation.navigate("/timeup");
+            window.location.href = "timeup";
         } else {
             document.getElementById("timer").innerHTML = timer + " ⏱";
         }
-        timer -= 1;
+        //timer -= 1;
     }, 1000);
 </script>

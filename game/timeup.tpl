@@ -9,7 +9,7 @@ echo $funds > etc/users/$user/funds
 <main>
     <h1>Too slow!</h1>
     <h3>You can't afford to sit around in this economy! You've been fined $%($fine%) by the SEC for wasting everyone's time.</h3>
-    <button onclick="window.navigation.navigate('/invest')">Sorry</button>
+    <button onclick="window.location.href = 'invest'">Sorry</button>
 </main>
 
 <style>
