@@ -1,33 +1,14 @@
 % startup=site/data/startups/$q_startup
 
-<main class="theme%(`{shuf -i 1-5 -n 1}%)">
-    <div class="slide logo">
-        <h1>%($q_name%)</h1>
-    </div>
-    <div class="slide product">
-        <h2>Product</h2>
-        <img src="/img/products/%($q_startup%)/%(`{shuf -i 1-4 -n 1}%).png" />
-        <p>%(`{cat $startup/idea}%)</p>
-    </div>
-    <div class="slide vision">
-        <h2>Vision</h2>
-        <p>%(`{fortune $startup/vision}%)</p>
-    </div>
+<main class="theme%($q_theme%)">
     <div class="slide">
         <h2>History</h2>
 %       if(~ $q_quality good) {
-            <ul>%(`{fortune $startup/good/history}%)</ul>
+            <ul>%(`{sed -n $q_history^p $startup/good/history}%)</ul>
 %       }
 %       if not {
-            <ul>%(`{fortune $startup/bad/history}%)</ul>
+            <ul>%(`{sed -n $q_history^p $startup/bad/history}%)</ul>
 %       }
-    </div>
-    <div class="slide financials">
-        <h2>Financials?</h2>
-        <img src="/img/graphs/%(`{shuf -i 1-13 -n 1}%).png" />
-    </div>
-    <div class="slide end">
-        <p>%(`{fortune site/data/thanks}%)</p>
     </div>
 </main>
 
