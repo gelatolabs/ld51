@@ -22,32 +22,52 @@ if (~ $REQUEST_METHOD POST) {
         <button>Play again</button>
     </form><br><br>
 
-    <div class="window leaderboard">
-        <div class="title-bar">
-            <div class="title-bar-text">🧩 Macrosoft Incel - highscores.xls</div>
-        </div>
-        <div class="window-body">
-%           if (~ $REQUEST_METHOD GET) {
-                <form action="" method="POST">
-                    <div class="field-row">
-                        <label for="name">Name</label>
-                        <input id="name" name="name" type="text" required />
-                        <button>Submit</button>
-                    </div>
-                </form><br>
-%           }
-            <table>
-                <tr class="bold"><td></td><td>Name</td><td>Score</td></tr>
-%               row=1
-%               ifs=$NEW_LINE for(score in `{cat etc/scores | sort -n | uniq}) {
-                    <tr>
-                        <td class="bold">%($row%)</td>
-                        <td>%(`{echo $score | sed 's/.* //'}%)</td>
-                        <td>%(`{echo $score | sed 's/ .*//'}%)</td>
-                    </tr>
-%                   row=`{+ $row 1}
+    <div class="left">
+        <h2>Credits</h2>
+        <p>A <a href="https://gelatolabs.xyz" target="_blank" style="color: #0f0">Gelato Labs</a> production for Ludum Dare 51 ("Every 10 seconds")<br><br>
+           The Gelato Labs "G-Team" for LD51:<br><br>
+           <strong>Programming</strong><br>
+           Kyle Farwell (kfarwell)<br><br>
+           <strong>Writing</strong><br>
+           Ryan Refcio<br>
+           Kyle Farwell (kfarwell)<br>
+           Jared Kelly (J A R F)<br>
+           GPT-3 🤖<br><br>
+           <strong>Art</strong><br>
+           DALL·E 🤖<br><br>
+           <a href="https://github.com/gelatolabs/vcs2022" target="_blank" style="color: #0f0">Source code</a></p>
+    </div>
+
+    <div class="right">
+        <h2>Leaderboard</h2>
+
+        <div class="window leaderboard">
+            <div class="title-bar">
+                <div class="title-bar-text">🧩 Macrosoft Incel - highscores.xls</div>
+            </div>
+            <div class="window-body">
+%               if (~ $REQUEST_METHOD GET) {
+                    <form action="" method="POST">
+                        <div class="field-row">
+                            <label for="name">Name</label>
+                            <input id="name" name="name" type="text" required />
+                            <button>Submit</button>
+                        </div>
+                    </form><br>
 %               }
-            </table>
+                <table>
+                    <tr class="bold"><td></td><td>Name</td><td>Score</td></tr>
+%                   row=1
+%                   ifs=$NEW_LINE for(score in `{cat etc/scores | sort -nr | uniq}) {
+                        <tr>
+                            <td class="bold">%($row%)</td>
+                            <td>%(`{echo $score | sed 's/.* //'}%)</td>
+                            <td>%(`{echo $score | sed 's/ .*//'}%)</td>
+                        </tr>
+%                       row=`{+ $row 1}
+%                   }
+                </table>
+            </div>
         </div>
     </div>
 </main>
@@ -64,6 +84,8 @@ if (~ $REQUEST_METHOD POST) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+	max-height: 100vh;
+	overflow-y: auto;
         color: #ff0;
     }
 
@@ -87,6 +109,7 @@ if (~ $REQUEST_METHOD POST) {
     }
 
     table {
+        width: 100%;
         border-collapse: collapse;
         text-align: left;
     }
@@ -105,5 +128,10 @@ if (~ $REQUEST_METHOD POST) {
 
     .bold {
         font-weight: bold;
+    }
+
+    div.left {
+        float: left;
+        width: 50%;
     }
 </style>

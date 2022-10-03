@@ -33,6 +33,8 @@ if(~ $REQUEST_METHOD POST) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+	max-height: 100vh;
+	overflow-y: auto;
         text-align: center;
         color: #ff0;
     }
