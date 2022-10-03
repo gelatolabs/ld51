@@ -206,6 +206,6 @@ if (le $funds 0) {
         } else {
             document.getElementById("timer").innerHTML = timer;
         }
-        //timer -= 1;
+        timer -= 1;
     }, 1000);
 </script>
