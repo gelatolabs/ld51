@@ -58,8 +58,8 @@ if (le $funds 0) {
             <div class="window-body">
                 <iframe src="slides?startup=%($startup%)&name=%($name%)&quality=%($quality%)"></iframe>
 
-                <button class="prev" onclick="prevSlide(this)">◀</button>
-                <button class="next" onclick="nextSlide(this)">▶</button>
+                <button class="prev" onclick="document.getElementById('click').play(); prevSlide(this)">◀</button>
+                <button class="next" onclick="document.getElementById('click').play(); nextSlide(this)">▶</button>
 
                 <form action="/sell" method="POST">
                     <input type="hidden" name="startup" value="%($startup%)" />
@@ -67,14 +67,14 @@ if (le $funds 0) {
                     <input type="hidden" name="quality" value="%($quality%)" />
                     <label for="invest%($quality%)">$</label>
                     <input id="invest%($quality%)" name="investment" type="number" min="1" max="%($funds%)" value="%(`{min 10 $funds}%)" />
-                    <button class="invest">Invest</button>
+                    <button class="invest" onclick="document.getElementById('click').play()">Invest</button>
                 </form>
             </div>
 %       echo -n '</div>'
 %   }
 </div>
 
-<button class="menu" onclick="window.location.href = 'menu'">Menu</button>
+<button class="menu" onclick="document.getElementById('click').play(); window.location.href = 'menu'">Menu</button>
 
 <style>
     html, body {
@@ -222,3 +222,5 @@ if (le $funds 0) {
         }, 1000);
 %   }
 </script>
+
+<audio id="click" src="/snd/click.ogg" />

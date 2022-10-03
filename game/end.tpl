@@ -19,7 +19,7 @@ if (~ $REQUEST_METHOD POST) {
        strategic allocation of funds.  Although we're sure you can do better next time - give it another
        shot to see if you can retire with a phatter wallet!</p>
     <form action="menu" method="POST">
-        <button>Play again</button>
+        <button onclick="document.getElementById('click').play()">Play again</button>
     </form><br><br>
 
     <div class="left">
@@ -33,6 +33,8 @@ if (~ $REQUEST_METHOD POST) {
            Kyle Farwell (kfarwell)<br>
            Jared Kelly (J A R F)<br>
            GPT-3 🤖<br><br>
+           <strong>Music and Sound</strong><br>
+           Alice Dalton (AliceVibes)<br><br>
            <strong>Art</strong><br>
            DALL·E 🤖<br><br>
            <a href="https://github.com/gelatolabs/vcs2022" target="_blank" style="color: #0f0">Source code</a></p>
@@ -51,7 +53,7 @@ if (~ $REQUEST_METHOD POST) {
                         <div class="field-row">
                             <label for="name">Name</label>
                             <input id="name" name="name" type="text" required />
-                            <button>Submit</button>
+                            <button onclick="document.getElementById('click').play()">Submit</button>
                         </div>
                     </form><br>
 %               }
@@ -135,3 +137,5 @@ if (~ $REQUEST_METHOD POST) {
         width: 50%;
     }
 </style>
+
+<audio id="click" src="/snd/click.ogg" />

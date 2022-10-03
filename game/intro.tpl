@@ -23,7 +23,7 @@ be quick and firm with your decision - as you only have 10 seconds to determine 
 Good luck, and may the most ruthless investor win!<br><br>
        Sincerely,<br>
        The Gelato Productions International Universal Global Executive Team</p>
-    <button onclick="window.location.href = 'invest'">Okay</button>
+    <button onclick="document.getElementById('click').play(); window.location.href = 'invest'">Okay</button>
 
     <h2>Disclaimer</h2>
     <p>Gelato Labs generated startup slide deck text in part with GPT-3, OpenAI’s large-scale language-generation model. Upon generating draft language, we reviewed, edited, and revised the language to our own liking and take ultimate responsibility for the content of this publication. Additionally, startup product images were generated using DALL·E, OpenAI’s image-generation model.</p>
@@ -50,3 +50,5 @@ Good luck, and may the most ruthless investor win!<br><br>
         font-size: 150%;
     }
 </style>
+
+<audio id="click" src="/snd/click.ogg" />

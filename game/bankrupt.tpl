@@ -11,7 +11,7 @@ investments=`{grep -L '^0$' etc/users/$user/positions/*/investment | wc -l}
 %             for (startup in etc/users/$user/positions/*) {
                   <input type="hidden" name="%(`{basename $startup}%)" value="sell">
 %             }
-              <button>Continue</button>
+              <button onclick="document.getElementById('click').play()">Continue</button>
           </form>
       </main>
 % }
@@ -20,7 +20,7 @@ investments=`{grep -L '^0$' etc/users/$user/positions/*/investment | wc -l}
           <h1>Bankrupt!</h1>
           <h3>Game over.</h3>
           <form action="menu" method="POST">
-              <button>Menu</button>
+              <button onclick="document.getElementById('click').play()">Menu</button>
           </form>
       </main>
 % }
@@ -41,3 +41,5 @@ investments=`{grep -L '^0$' etc/users/$user/positions/*/investment | wc -l}
         color: #ff0;
     }
 </style>
+
+<audio id="click" src="/snd/click.ogg" />

@@ -13,9 +13,9 @@ if(~ $REQUEST_METHOD POST) {
 %   if(! ~ $#user 0 &&
 %      test -f etc/users/$user/difficulty &&
 %      ~ $REQUEST_METHOD GET) {
-        <button onclick="window.location.href = 'invest'">Continue</button>
+        <button onclick="document.getElementById('click').play(); window.location.href = 'invest'">Continue</button>
         <form action="" method="POST">
-            <button>Reset game</button>
+            <button onclick="document.getElementById('click').play()">Reset game</button>
         </form>
 %   }
 %   if not {
@@ -33,7 +33,7 @@ if(~ $REQUEST_METHOD POST) {
                 <input id="plot" type="radio" name="difficulty" value="plot">
                 <label for="plot">Here for the plot: no timer</label>
             </div><br>
-            <button>Play</button>
+            <button onclick="parent.music(); document.getElementById('click').play()">Play</button>
         </form>
 %   }
 </main>
@@ -60,3 +60,5 @@ if(~ $REQUEST_METHOD POST) {
         display: inline-block;
     }
 </style>
+
+<audio id="click" src="/snd/click.ogg" />

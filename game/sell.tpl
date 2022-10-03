@@ -116,12 +116,12 @@ if({! ~ $#p_startup 0} &&
 %                   row=`{+ $row 1}
 %               }
             </table>
-            <br><button>Continue</button>
+            <br><button onclick="document.getElementById('click').play()">Continue</button>
         </form>
     </div>
 </div>
 
-<button class="menu" onclick="window.location.href = 'menu'">Menu</button>
+<button class="menu" onclick="document.getElementById('click').play(); window.location.href = 'menu'">Menu</button>
 
 <style>
     html, body {
@@ -268,3 +268,5 @@ if({! ~ $#p_startup 0} &&
         }, 1000);
 %   }
 </script>
+
+<audio id="click" src="/snd/click.ogg" />

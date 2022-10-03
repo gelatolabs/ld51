@@ -1,4 +1,5 @@
 <iframe src="/menu"></iframe>
+<audio id="music" src="/snd/music.ogg" loop />
 
 <style>
     html, body {
@@ -17,3 +18,9 @@
         border: 0;
     }
 </style>
+
+<script>
+    function music() {
+        document.getElementById("music").play();
+    }
+</script>
