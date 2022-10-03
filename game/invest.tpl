@@ -5,9 +5,10 @@ if(~ $#user 0) {
     exit
 }
 
+difficulty=`{cat etc/users/$user/difficulty}
 funds=`{cat etc/users/$user/funds}
-
 week=`{cat etc/users/$user/week}
+
 week=`{+ $week 1}
 echo $week > etc/users/$user/week
 
@@ -33,7 +34,12 @@ if (le $funds 0) {
 %}
 
 <h1 id="funds">💰 $%($funds%)</h1>
-<h1 id="timer">10</h1>
+% if(~ $difficulty easy) {
+      <h1 id="timer">30</h1>
+% }
+% if not if(! ~ $difficulty plot) {
+      <h1 id="timer">10</h1>
+% }
 <h1 id="week">%($week%)/15 &#x1F5D3;&#xFE0F;</h1>
 
 <div class="decks">
@@ -199,13 +205,20 @@ if (le $funds 0) {
         }
     }
 
-    var timer = 10;
-    setInterval(function() {
-        if (timer <= 0) {
-            window.location.href = "timeup";
-        } else {
-            document.getElementById("timer").innerHTML = timer;
-        }
-        timer -= 1;
-    }, 1000);
+%   if(! ~ $difficulty plot) {
+%       if(~ $difficulty easy) {
+            var timer = 30;
+%       }
+%       if not {
+            var timer = 10;
+%       }
+        setInterval(function() {
+            if (timer <= 0) {
+                window.location.href = "timeup";
+            } else {
+                document.getElementById("timer").innerHTML = timer;
+            }
+            timer -= 1;
+        }, 1000);
+%   }
 </script>

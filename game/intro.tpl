@@ -1,3 +1,13 @@
+%{
+user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
+if(~ $"p_difficulty ld)
+    echo ld > etc/users/$user/difficulty
+if not if(~ $"p_difficulty easy)
+    echo easy > etc/users/$user/difficulty
+if not if(~ $"p_difficulty plot)
+    echo plot > etc/users/$user/difficulty
+%}
+
 <main>
     <h1>Welcome</h1>
     <p>Greetings friend,<br><br>

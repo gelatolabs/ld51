@@ -10,14 +10,31 @@ if(~ $REQUEST_METHOD POST) {
     <h1>Venture Capitalist Simulator 2022</h1>
     <h2>A Gelato Labs production<br>for Ludum Dare 51</h2>
     <h3>"Every 10 seconds"</h3>
-%   if(! ~ $#user 0 && ~ $REQUEST_METHOD GET) {
+%   if(! ~ $#user 0 &&
+%      test -f etc/users/$user/difficulty &&
+%      ~ $REQUEST_METHOD GET) {
         <button onclick="window.location.href = 'invest'">Continue</button>
         <form action="" method="POST">
             <button>Reset game</button>
         </form>
 %   }
 %   if not {
-        <button onclick="window.location.href = 'intro'">Play</button>
+        <form action="/intro" method="POST">
+            <div class="field-row">Difficulty:</div>
+            <div class="field-row">
+                <input id="ld" type="radio" name="difficulty" value="ld" checked>
+                <label for="ld">Ludum Dare: 10 second timer</label>
+            </div>
+            <div class="field-row">
+                <input id="easy" type="radio" name="difficulty" value="easy">
+                <label for="easy">Easy baby mode: 30 second timer</label>
+            </div>
+            <div class="field-row">
+                <input id="plot" type="radio" name="difficulty" value="plot">
+                <label for="plot">Here for the plot: no timer</label>
+            </div><br>
+            <button>Play</button>
+        </form>
 %   }
 </main>
 
