@@ -9,14 +9,6 @@ difficulty=`{cat etc/users/$user/difficulty}
 funds=`{cat etc/users/$user/funds}
 week=`{cat etc/users/$user/week}
 
-week=`{+ $week 1}
-echo $week > etc/users/$user/week
-
-if (gt $week 15) {
-    echo '<script>window.location.href = "end";</script>'
-    exit
-}
-
 if(! ~ $#post_args 0) {
     for(startup in $post_args) {
         startup=`{echo $startup | sed 's/^p_//'}
@@ -29,6 +21,14 @@ if(! ~ $#post_args 0) {
 
 if (le $funds 0) {
     echo '<script>window.location.href = "bankrupt";</script>'
+    exit
+}
+
+week=`{+ $week 1}
+echo $week > etc/users/$user/week
+
+if (gt $week 15) {
+    echo '<script>window.location.href = "end";</script>'
     exit
 }
 %}

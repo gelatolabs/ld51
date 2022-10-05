@@ -1,13 +1,15 @@
 %{
 user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
+difficulty=`{cat etc/users/$user/difficulty}
 funds=`{cat etc/users/$user/funds}
 for(startup in `{ls etc/users/$user/positions}) {
     investment=`{cat $startup/investment}
     funds=`{+ $funds $investment}
     rm -r $startup
 }
+echo $funds > etc/users/$user/funds
 
-if (~ $REQUEST_METHOD POST) {
+if (~ $REQUEST_METHOD POST && ~ $difficulty ld) {
     p_name=`{echo $p_name | tr -cd '[a-zA-Z0-9]'}
     echo $funds $p_name >> etc/scores
 }
@@ -50,11 +52,21 @@ if (~ $REQUEST_METHOD POST) {
             <div class="window-body">
 %               if (~ $REQUEST_METHOD GET) {
                     <form action="" method="POST">
-                        <div class="field-row">
-                            <label for="name">Name</label>
-                            <input id="name" name="name" type="text" required />
-                            <button onclick="document.getElementById('click').play()">Submit</button>
-                        </div>
+%                       if (~ $difficulty ld) {
+                            <div class="field-row">
+                                <label for="name">Name</label>
+                                <input id="name" name="name" type="text" required />
+                                <button onclick="document.getElementById('click').play()">Submit</button>
+                            </div>
+%                       }
+%                       if not {
+                            Play on Ludum Dare difficulty to submit your score!
+                            <div class="field-row">
+                                <label for="name">Name</label>
+                                <input id="name" type="text" placeholder="Disabled" required disabled />
+                                <button onclick="document.getElementById('click').play()">Submit</button>
+                            </div>
+%                           }
                     </form><br>
 %               }
                 <table>
